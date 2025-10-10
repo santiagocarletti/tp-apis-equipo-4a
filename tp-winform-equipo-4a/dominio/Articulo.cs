@@ -16,15 +16,15 @@ namespace dominio
         public string Nombre { get; set; }
         [DisplayName("Descripción")]
         public string Descripcion { get; set; }
-        //[DisplayName("Marca")]
-        //public Marca marca { get; set; }
-        //[DisplayName("Categoría")]
-        //public Categoria IdCategoria { get; set; }
+        [DisplayName("Marca")]
+        public Marca marca { get; set; }
+        [DisplayName("Categoría")]
+        public Categoria IdCategoria { get; set; }
         public decimal Precio { get; set; }
         public List<string> Imagen { get; set; }
-        //public override string ToString()
-        //{
-        //    return marca.Descripcion;
-        //}
+        public override string ToString()
+        {
+            return marca.Descripcion;
+        }
     }
 }

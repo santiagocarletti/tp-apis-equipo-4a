@@ -33,6 +33,8 @@ namespace tp_apis_equipo_4a.Controllers
             nuevo.Codigo = articulo.Codigo;
             nuevo.Nombre = articulo.Nombre;
             nuevo.Descripcion = articulo.Descripcion;
+            nuevo.marca = new Marca { Id = articulo.marca.Id };
+            nuevo.IdCategoria = new Categoria { Id = articulo.IdCategoria.Id };
             nuevo.Imagen = articulo.Imagen;
             nuevo.Precio = articulo.Precio;
 
