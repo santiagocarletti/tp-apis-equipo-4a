@@ -62,6 +62,8 @@ namespace tp_apis_equipo_4a.Controllers
         // DELETE: api/Articulo/5
         public void Delete(int id)
         {
+           ArticuloNegocio negocio = new ArticuloNegocio();
+           negocio.eliminar(id);
         }
     }
 }
