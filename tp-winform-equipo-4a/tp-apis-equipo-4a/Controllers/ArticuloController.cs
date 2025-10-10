@@ -33,17 +33,30 @@ namespace tp_apis_equipo_4a.Controllers
             nuevo.Codigo = articulo.Codigo;
             nuevo.Nombre = articulo.Nombre;
             nuevo.Descripcion = articulo.Descripcion;
-            nuevo.marca = new Marca { Id = articulo.marca.Id };
-            nuevo.IdCategoria = new Categoria { Id = articulo.IdCategoria.Id };
-            nuevo.Imagen = articulo.Imagen;
+            nuevo.marca = new Marca { Id = articulo.IdMarca };
+            nuevo.IdCategoria = new Categoria { Id = articulo.IdCategoria };
             nuevo.Precio = articulo.Precio;
+            nuevo.Imagen = articulo.Imagen;
 
             negocio.agregar(nuevo);
         }
 
         // PUT: api/Articulo/5
-        public void Put(int id, [FromBody]string value)
+        public void Put(int id, [FromBody]ArticuloDto articulo)
         {
+            ArticuloNegocio negocio = new ArticuloNegocio();
+            Articulo nuevo = new Articulo();
+            nuevo.Codigo = articulo.Codigo;
+            nuevo.Nombre = articulo.Nombre;
+            nuevo.Descripcion = articulo.Descripcion;
+            nuevo.marca = new Marca { Id = articulo.IdMarca };
+            nuevo.IdCategoria = new Categoria { Id = articulo.IdCategoria };
+            nuevo.Precio = articulo.Precio;
+            nuevo.Imagen = articulo.Imagen;
+            nuevo.Id = id;
+
+            negocio.modificar(nuevo);
+
         }
 
         // DELETE: api/Articulo/5
