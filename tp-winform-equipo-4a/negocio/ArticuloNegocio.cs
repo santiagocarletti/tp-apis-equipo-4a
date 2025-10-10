@@ -42,16 +42,16 @@ namespace negocio
                     aux.Codigo = (string)lector["codigoArticulo"];
                     aux.Nombre = (string)lector["nombreArticulo"];
                     aux.Descripcion = (string)lector["articuloDescripcion"];
-                    aux.marca = new Marca();
-                    aux.marca.Id = (int)lector["IdMarca"];
-                    aux.marca.Descripcion = (string)lector["marcaDescripcion"];
-                    aux.IdCategoria = new Categoria();
-                    if (!(lector["IdCategoria"] is DBNull))
-                        aux.IdCategoria.Id = (int)lector["IdCategoria"];                    
-                    if (!(lector["categoriaDescripcion"] is DBNull))
-                        aux.IdCategoria.Descripcion = (string)lector["categoriaDescripcion"];
-                    else
-                        aux.IdCategoria.Descripcion = "";                    
+                    //aux.marca = new Marca();
+                    //aux.marca.Id = (int)lector["IdMarca"];
+                    //aux.marca.Descripcion = (string)lector["marcaDescripcion"];
+                    //aux.IdCategoria = new Categoria();
+                    //if (!(lector["IdCategoria"] is DBNull))
+                    //    aux.IdCategoria.Id = (int)lector["IdCategoria"];                    
+                    //if (!(lector["categoriaDescripcion"] is DBNull))
+                    //    aux.IdCategoria.Descripcion = (string)lector["categoriaDescripcion"];
+                    //else
+                    //    aux.IdCategoria.Descripcion = "";                    
                     aux.Precio = (decimal)lector["precioArticulo"];
                     aux.Imagen = new List<string>();
                     aux.Imagen.Add(Convert.ToString(lector["ImagenUrl"]));
@@ -76,16 +76,16 @@ namespace negocio
             {
                 datos.abrirConexion();
                 datos.setearConsulta(
-                    "INSERT INTO ARTICULOS (Codigo, Nombre, Descripcion, Precio, IdMarca, IdCategoria) " +
-                    "VALUES (@codigo, @nombre, @descripcion, @precio, @idMarca, @idCategoria); " +
+                    "INSERT INTO ARTICULOS (Codigo, Nombre, Descripcion, Precio) " +
+                    "VALUES (@codigo, @nombre, @descripcion, @precio); " +
                     "SELECT SCOPE_IDENTITY();"
                 );
                 datos.setearParametro("@codigo", nuevo.Codigo);
                 datos.setearParametro("@nombre", nuevo.Nombre);
                 datos.setearParametro("@descripcion", nuevo.Descripcion);
                 datos.setearParametro("@precio", nuevo.Precio);
-                datos.setearParametro("@idMarca", nuevo.marca.Id);
-                datos.setearParametro("@idCategoria", nuevo.IdCategoria.Id);
+                //datos.setearParametro("@idMarca", nuevo.marca.Id);
+                //datos.setearParametro("@idCategoria", nuevo.IdCategoria.Id);
 
                 int idArticulo = datos.ejecutarAccionconreturn();
                 nuevo.Id = idArticulo;
@@ -140,8 +140,8 @@ namespace negocio
                 datosTablaArticulos.setearParametro("@codigo", articulo.Codigo);
                 datosTablaArticulos.setearParametro("@nombre", articulo.Nombre);
                 datosTablaArticulos.setearParametro("@descripcion", articulo.Descripcion);
-                datosTablaArticulos.setearParametro("@idmarca", articulo.marca.Id);
-                datosTablaArticulos.setearParametro("@idcategoria", articulo.IdCategoria.Id);
+                //datosTablaArticulos.setearParametro("@idmarca", articulo.marca.Id);
+                //datosTablaArticulos.setearParametro("@idcategoria", articulo.IdCategoria.Id);
                 datosTablaArticulos.setearParametro("@precio", articulo.Precio);
                 datosTablaArticulos.ejecutarAccion();
                 datosTablaArticulos.limpiarParametros();
@@ -272,16 +272,16 @@ namespace negocio
                     aux.Codigo = (string)datos.Lector["codigoArticulo"];
                     aux.Nombre = (string)datos.Lector["nombreArticulo"];
                     aux.Descripcion = (string)datos.Lector["articuloDescripcion"];
-                    aux.marca = new Marca();
-                    aux.marca.Id = (int)datos.Lector["IdMarca"];
-                    aux.marca.Descripcion = (string)datos.Lector["marcaDescripcion"];
-                    aux.IdCategoria = new Categoria();
-                    if (!(datos.Lector["IdCategoria"] is DBNull))
-                        aux.IdCategoria.Id = (int)datos.Lector["IdCategoria"];
-                    if (!(datos.Lector["categoriaDescripcion"] is DBNull))
-                        aux.IdCategoria.Descripcion = (string)datos.Lector["categoriaDescripcion"];
-                    else
-                        aux.IdCategoria.Descripcion = "";
+                    //aux.marca = new Marca();
+                    //aux.marca.Id = (int)datos.Lector["IdMarca"];
+                    //aux.marca.Descripcion = (string)datos.Lector["marcaDescripcion"];
+                    //aux.IdCategoria = new Categoria();
+                    //if (!(datos.Lector["IdCategoria"] is DBNull))
+                    //    aux.IdCategoria.Id = (int)datos.Lector["IdCategoria"];
+                    //if (!(datos.Lector["categoriaDescripcion"] is DBNull))
+                    //    aux.IdCategoria.Descripcion = (string)datos.Lector["categoriaDescripcion"];
+                    //else
+                    //    aux.IdCategoria.Descripcion = "";
 
                     aux.Precio = (decimal)datos.Lector["precioArticulo"];
                     aux.Imagen = new List<string>();
@@ -331,15 +331,15 @@ namespace negocio
                     articulo.Descripcion = Convert.ToString(datos.Lector["Descripcion"]);
                     articulo.Precio = Convert.ToDecimal(datos.Lector["Precio"]);
 
-                    articulo.marca = new Marca
-                    {
-                        Descripcion = Convert.ToString(datos.Lector["Marca"])
-                    };
+                    //articulo.marca = new Marca
+                    //{
+                    //    Descripcion = Convert.ToString(datos.Lector["Marca"])
+                    //};
 
-                    articulo.IdCategoria = new Categoria
-                    {
-                        Descripcion = Convert.ToString(datos.Lector["Categoria"])
-                    };
+                    //articulo.IdCategoria = new Categoria
+                    //{
+                    //    Descripcion = Convert.ToString(datos.Lector["Categoria"])
+                    //};
 
                     // Manejo de imágenes
                     articulo.Imagen = new List<string>();

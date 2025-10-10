@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Web.Http;
 using dominio;
 using negocio;
+using tp_apis_equipo_4a.Models;
 
 namespace tp_apis_equipo_4a.Controllers
 {
@@ -25,8 +26,17 @@ namespace tp_apis_equipo_4a.Controllers
         }
 
         // POST: api/Articulo
-        public void Post([FromBody]string value)
+        public void Post([FromBody]ArticuloDto articulo)
         {
+            ArticuloNegocio negocio = new ArticuloNegocio();
+            Articulo nuevo = new Articulo();
+            nuevo.Codigo = articulo.Codigo;
+            nuevo.Nombre = articulo.Nombre;
+            nuevo.Descripcion = articulo.Descripcion;
+            nuevo.Imagen = articulo.Imagen;
+            nuevo.Precio = articulo.Precio;
+
+            negocio.agregar(nuevo);
         }
 
         // PUT: api/Articulo/5
