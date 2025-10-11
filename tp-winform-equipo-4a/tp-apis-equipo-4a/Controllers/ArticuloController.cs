@@ -20,9 +20,10 @@ namespace tp_apis_equipo_4a.Controllers
         }
 
         // GET: api/Articulo/5
-        public string Get(int id)
+        public Articulo Get(int id)
         {
-            return "value";
+            ArticuloNegocio negocio = new ArticuloNegocio();
+            return negocio.obtenerPorId(id);
         }
 
         // POST: api/Articulo
