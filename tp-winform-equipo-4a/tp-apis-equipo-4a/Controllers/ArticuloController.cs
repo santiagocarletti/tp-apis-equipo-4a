@@ -65,5 +65,20 @@ namespace tp_apis_equipo_4a.Controllers
            ArticuloNegocio negocio = new ArticuloNegocio();
            negocio.eliminar(id);
         }
+        [HttpPost]
+        [Route("api/Articulo/AgregarImagenes")]
+        public IHttpActionResult Post([FromBody] ImagenesDto imagenes)
+        {
+            try
+            {
+                ArticuloNegocio negocio = new ArticuloNegocio();
+                string imagenResultado = negocio.agregarImagenes(imagenes.Id, imagenes.Imagenes);
+                return Ok(imagenResultado);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Error al cargar imágenes: " + ex.Message);
+            }
+        }
     }
 }
