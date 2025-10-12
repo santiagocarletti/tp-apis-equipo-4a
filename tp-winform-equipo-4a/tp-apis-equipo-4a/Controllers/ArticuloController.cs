@@ -13,6 +13,8 @@ namespace tp_apis_equipo_4a.Controllers
     public class ArticuloController : ApiController
     {
         // GET: api/Articulo
+        [HttpGet]
+        [Route("api/Articulo")]
         public IEnumerable<Articulo> Get()
         {
             ArticuloNegocio negocio = new ArticuloNegocio();
@@ -20,6 +22,8 @@ namespace tp_apis_equipo_4a.Controllers
         }
 
         // GET: api/Articulo/5
+        [HttpGet]
+        [Route("api/Articulo/{id}")]
         public Articulo Get(int id)
         {
             ArticuloNegocio negocio = new ArticuloNegocio();

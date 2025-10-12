@@ -306,6 +306,7 @@ namespace negocio
             try
             {
                 datos.setearConsulta("SELECT A.Id, A.Codigo, A.Nombre, A.Descripcion, A.Precio, " +
+                                     "A.IdCategoria AS IdCategoria, A.IdMarca AS IdMarca, " +
                                      "C.Descripcion AS Categoria, M.Descripcion AS Marca, I.ImagenUrl " +
                                      "FROM Articulos A " +
                                      "LEFT JOIN Categorias C ON A.IdCategoria = C.Id " +
@@ -333,11 +334,13 @@ namespace negocio
 
                     articulo.marca = new Marca
                     {
+                        Id = Convert.ToInt32(datos.Lector["IdMarca"]),
                         Descripcion = Convert.ToString(datos.Lector["Marca"])
                     };
 
                     articulo.IdCategoria = new Categoria
                     {
+                        Id = Convert.ToInt32(datos.Lector["IdCategoria"]),
                         Descripcion = Convert.ToString(datos.Lector["Categoria"])
                     };
 
