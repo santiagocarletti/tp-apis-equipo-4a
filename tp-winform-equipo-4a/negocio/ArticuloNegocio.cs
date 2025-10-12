@@ -179,7 +179,7 @@ namespace negocio
             try
             {
                 datos.abrirConexion();
-                datos.setearConsulta("delete from ARTICULOS where Id = @Id");
+                datos.setearConsulta("DELETE FROM IMAGENES WHERE IdArticulo = @Id;" + "delete from ARTICULOS where Id = @Id;");
                 datos.setearParametro("@Id", Id);
                 datos.ejecutarAccion();
             }

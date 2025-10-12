@@ -29,16 +29,6 @@ namespace tp_apis_equipo_4a.Controllers
         // POST: api/Articulo
         public HttpResponseMessage Post([FromBody]ArticuloDto articulo)
         {
-            //ArticuloNegocio negocio = new ArticuloNegocio();
-            //Articulo nuevo = new Articulo();
-            //nuevo.Codigo = articulo.Codigo;
-            //nuevo.Nombre = articulo.Nombre;
-            //nuevo.Descripcion = articulo.Descripcion;
-            //nuevo.marca = new Marca { Id = articulo.IdMarca };
-            //nuevo.IdCategoria = new Categoria { Id = articulo.IdCategoria };
-            //nuevo.Precio = articulo.Precio;
-            //nuevo.Imagen = articulo.Imagen;
-
             var negocio = new ArticuloNegocio();
             var marcaNegocio = new MarcaNegocio();
             var categoriaNegocio = new CategoriaNegocio();
