@@ -402,6 +402,27 @@ namespace negocio
                 datos.cerrarConexion();
             }
         }
+        public bool existeCodigo(string codigo)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.setearConsulta("SELECT COUNT(*) FROM Articulos WHERE Codigo = @codigo");
+                datos.setearParametro("@codigo", codigo);
+                datos.ejecutarLectura();
+
+                datos.Lector.Read();
+                return Convert.ToInt32(datos.Lector[0]) > 0;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error al verificar código: {ex.Message}");
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
     }
 }
                     

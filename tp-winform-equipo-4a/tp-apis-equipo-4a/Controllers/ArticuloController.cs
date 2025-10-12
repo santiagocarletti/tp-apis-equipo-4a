@@ -27,20 +27,47 @@ namespace tp_apis_equipo_4a.Controllers
         }
 
         // POST: api/Articulo
-        public HttpResponseMessage Post([FromBody]ArticuloDto articulo)
+        [HttpPost]
+        [Route("api/Articulo")]
+        public IHttpActionResult Post([FromBody] ArticuloDto articulo)
         {
             var negocio = new ArticuloNegocio();
             var marcaNegocio = new MarcaNegocio();
             var categoriaNegocio = new CategoriaNegocio();
 
+            if (articulo == null)
+            {
+                return Content(HttpStatusCode.BadRequest, "Verifique el formato enviado.");
+            }
+            if (articulo.Codigo == null || articulo.Codigo.Trim() == "")
+                return Content(HttpStatusCode.BadRequest, "Código de Artículo obligatorio.");
+
             Marca marca = marcaNegocio.listar().Find(x => x.Id == articulo.IdMarca);
             Categoria categoria = categoriaNegocio.listar().Find(x => x.Id == articulo.IdCategoria);
 
+            if (articulo.IdMarca <= 0)
+                return Content(HttpStatusCode.BadRequest, "El ID de la marca debe ser válido.");
+
             if (marca == null)
-                return Request.CreateResponse(HttpStatusCode.BadRequest, "La marca no existe.");
+                return Content(HttpStatusCode.BadRequest, "La marca no existe.");
+
+            if (articulo.IdCategoria <= 0)
+                return Content(HttpStatusCode.BadRequest, "ID de Categoría inválido.");
 
             if (categoria == null)
-                return Request.CreateResponse(HttpStatusCode.BadRequest, "La categoría no existe.");
+                return Content(HttpStatusCode.BadRequest, "La categoría no existe.");
+
+            if (negocio.existeCodigo(articulo.Codigo))
+                return Content(HttpStatusCode.BadRequest, "Código de Artículo ya existente");
+
+            if (articulo.Nombre == null || articulo.Nombre.Trim() == "")
+                return Content(HttpStatusCode.BadRequest, "Nombre de Artículo obligatorio.");
+
+            if (articulo.Descripcion == null || articulo.Descripcion.Trim() == "")
+                return Content(HttpStatusCode.BadRequest, "Descripción de Artículo obligatoria.");
+
+            if (articulo.Precio <= 0)
+                return Content(HttpStatusCode.BadRequest, "El precio debe ser mayor a 0.");
 
             var nuevo = new Articulo
             {
@@ -56,11 +83,11 @@ namespace tp_apis_equipo_4a.Controllers
             try
             {
                 negocio.agregar(nuevo);
-                return Request.CreateResponse(HttpStatusCode.OK, "Artículo agregado correctamente.");
+                return Content(HttpStatusCode.OK, "Artículo agregado correctamente.");
             }
             catch (Exception ex)
             {
-                return Request.CreateResponse(HttpStatusCode.InternalServerError, "Error al agregar el artículo");
+                return Content(HttpStatusCode.InternalServerError, "Error al agregar el artículo");
             }
         }
 
@@ -88,6 +115,7 @@ namespace tp_apis_equipo_4a.Controllers
            ArticuloNegocio negocio = new ArticuloNegocio();
            negocio.eliminar(id);
         }
+
         [HttpPost]
         [Route("api/Articulo/AgregarImagenes")]
         public IHttpActionResult Post([FromBody] ImagenesDto imagenes)
