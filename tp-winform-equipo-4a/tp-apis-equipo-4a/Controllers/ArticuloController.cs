@@ -114,10 +114,20 @@ namespace tp_apis_equipo_4a.Controllers
         }
 
         // DELETE: api/Articulo/5
-        public void Delete(int id)
+        [HttpDelete]
+        [Route("api/Articulo/{id}")]
+        public HttpResponseMessage Delete(int id)
         {
-           ArticuloNegocio negocio = new ArticuloNegocio();
-           negocio.eliminar(id);
+            var negocio = new ArticuloNegocio();
+            try
+            {
+                negocio.eliminar(id);
+                return Request.CreateResponse(HttpStatusCode.OK, "Artículo eliminado correctamente.");
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, "Error al eliminar el artículo.");
+            }
         }
 
         [HttpPost]
