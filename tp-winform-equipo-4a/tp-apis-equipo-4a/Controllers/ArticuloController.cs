@@ -166,17 +166,21 @@ namespace tp_apis_equipo_4a.Controllers
         // DELETE: api/Articulo/5
         [HttpDelete]
         [Route("api/Articulo/{id}")]
-        public HttpResponseMessage Delete(int id)
+        public IHttpActionResult Delete(int id)
         {
             var negocio = new ArticuloNegocio();
             try
             {
+                Articulo articuloExistente = negocio.obtenerPorId(id);
+                if (articuloExistente == null || articuloExistente.Id == 0)
+                    return Content(HttpStatusCode.NotFound, $"No se encontró un artículo con el ID {id}.");
+
                 negocio.eliminar(id);
-                return Request.CreateResponse(HttpStatusCode.OK, "Artículo eliminado correctamente.");
+                return Content(HttpStatusCode.OK, $"Artículo con ID {id} eliminado correctamente.");
             }
             catch (Exception ex)
             {
-                return Request.CreateResponse(HttpStatusCode.InternalServerError, "Error al eliminar el artículo.");
+                return Content(HttpStatusCode.InternalServerError, $"Error al eliminar el artículo: {ex.Message}");
             }
         }
 
