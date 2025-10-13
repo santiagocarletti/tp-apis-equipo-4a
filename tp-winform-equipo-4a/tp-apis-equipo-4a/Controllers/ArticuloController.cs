@@ -96,9 +96,51 @@ namespace tp_apis_equipo_4a.Controllers
         }
 
         // PUT: api/Articulo/5
-        public void Put(int id, [FromBody]ArticuloDto articulo)
+        [HttpPut]
+        [Route("api/Articulo/{id}")]
+        public IHttpActionResult Put(int id, [FromBody]ArticuloDto articulo)
         {
-            ArticuloNegocio negocio = new ArticuloNegocio();
+            var negocio = new ArticuloNegocio();
+            var marcaNegocio = new MarcaNegocio();
+            var categoriaNegocio = new CategoriaNegocio();
+
+            if (articulo == null)
+            {
+                return Content(HttpStatusCode.BadRequest, "Verifique el formato enviado.");
+            }
+            if (articulo.Codigo == null || articulo.Codigo.Trim() == "")
+                return Content(HttpStatusCode.BadRequest, "Código de Artículo obligatorio.");
+
+            Marca marca = marcaNegocio.listar().Find(x => x.Id == articulo.IdMarca);
+            Categoria categoria = categoriaNegocio.listar().Find(x => x.Id == articulo.IdCategoria);
+
+            if (articulo.IdMarca <= 0)
+                return Content(HttpStatusCode.BadRequest, "El ID de la marca debe ser válido.");
+
+            if (marca == null)
+                return Content(HttpStatusCode.BadRequest, "La marca no existe.");
+
+            if (articulo.IdCategoria <= 0)
+                return Content(HttpStatusCode.BadRequest, "ID de Categoría inválido.");
+
+            if (categoria == null)
+                return Content(HttpStatusCode.BadRequest, "La categoría no existe.");
+
+             if (articulo.Codigo == null || articulo.Codigo.Trim() == "")
+                return Content(HttpStatusCode.BadRequest, "Código de Artículo obligatorio.");
+
+            if (articulo.Nombre == null || articulo.Nombre.Trim() == "")
+                return Content(HttpStatusCode.BadRequest, "Nombre de Artículo obligatorio.");
+
+            if (articulo.Descripcion == null || articulo.Descripcion.Trim() == "")
+                return Content(HttpStatusCode.BadRequest, "Descripción de Artículo obligatoria.");
+
+            if (articulo.Precio <= 0)
+                return Content(HttpStatusCode.BadRequest, "El precio debe ser mayor a 0.");
+
+            if (negocio.existeCodigo(articulo.Codigo, id))
+                return Content(HttpStatusCode.BadRequest, "Código de Artículo ya existente para otro artículo.");
+
             Articulo nuevo = new Articulo();
             nuevo.Codigo = articulo.Codigo;
             nuevo.Nombre = articulo.Nombre;
@@ -109,7 +151,15 @@ namespace tp_apis_equipo_4a.Controllers
             nuevo.Imagen = articulo.Imagen;
             nuevo.Id = id;
 
-            negocio.modificar(nuevo);
+            try
+            {
+                negocio.modificar(nuevo);
+                return Content(HttpStatusCode.OK, "Artículo modificado correctamente.");
+            }
+            catch (Exception ex)
+            {
+                return Content(HttpStatusCode.InternalServerError, "Error al modificar el artículo.");
+            }
 
         }
 
