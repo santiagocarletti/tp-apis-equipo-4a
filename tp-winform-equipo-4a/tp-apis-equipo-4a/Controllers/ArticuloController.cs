@@ -150,14 +150,36 @@ namespace tp_apis_equipo_4a.Controllers
             if (negocio.existeCodigo(articulo.Codigo, id))
                 return Content(HttpStatusCode.BadRequest, "Código de Artículo ya existente para otro artículo.");
 
+            bool mismasImagenes = false;
+
+            if (articuloExistente.Imagen != null && articulo.Imagen != null)
+            {
+                if (articuloExistente.Imagen.Count == articulo.Imagen.Count)
+                {
+                    mismasImagenes = true;
+                    for (int i = 0; i < articulo.Imagen.Count; i++)
+                    {
+                        if (articuloExistente.Imagen[i] != articulo.Imagen[i])
+                        {
+                            mismasImagenes = false;
+                            break;
+                        }
+                    }
+                }
+            }
+            else if (articuloExistente.Imagen == null && articulo.Imagen == null)
+            {
+                mismasImagenes = true;
+            }
+
             bool NoHayCambios =
                 articuloExistente.Codigo == articulo.Codigo &&
                 articuloExistente.Nombre == articulo.Nombre &&
                 articuloExistente.Descripcion == articulo.Descripcion &&
                 articuloExistente.marca.Id == articulo.IdMarca &&
                 articuloExistente.IdCategoria.Id == articulo.IdCategoria &&
-                articuloExistente.Precio == articulo.Precio;
-                //articuloExistente.Imagen == articulo.Imagen;
+                articuloExistente.Precio == articulo.Precio &&
+                mismasImagenes;
 
             if (NoHayCambios)
             {
