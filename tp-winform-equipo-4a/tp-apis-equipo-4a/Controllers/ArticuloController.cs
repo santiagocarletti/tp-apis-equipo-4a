@@ -24,10 +24,15 @@ namespace tp_apis_equipo_4a.Controllers
         // GET: api/Articulo/5
         [HttpGet]
         [Route("api/Articulo/{id}")]
-        public Articulo Get(int id)
+        public IHttpActionResult Get(int id)
         {
             ArticuloNegocio negocio = new ArticuloNegocio();
-            return negocio.obtenerPorId(id);
+            Articulo articulo = negocio.obtenerPorId(id);
+
+            if (articulo == null || articulo.Id == 0)
+                return Content(HttpStatusCode.NotFound, $"No se encontró un artículo con ID {id}.");
+
+            return Ok(articulo);
         }
 
         // POST: api/Articulo
@@ -202,6 +207,7 @@ namespace tp_apis_equipo_4a.Controllers
             }
         }
 
+        //POST: Articulo/AgregarImagenes
         [HttpPost]
         [Route("api/Articulo/AgregarImagenes")]
         public IHttpActionResult Post([FromBody] ImagenesDto imagenes)
