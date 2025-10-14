@@ -111,6 +111,10 @@ namespace tp_apis_equipo_4a.Controllers
             if (articulo.Codigo == null || articulo.Codigo.Trim() == "")
                 return Content(HttpStatusCode.BadRequest, "Código de Artículo obligatorio.");
 
+            Articulo articuloExistente = negocio.obtenerPorId(id);
+            if (articuloExistente == null || articuloExistente.Id == 0)
+                return Content(HttpStatusCode.NotFound, $"No se encontró un artículo con el ID {id}.");
+
             Marca marca = marcaNegocio.listar().Find(x => x.Id == articulo.IdMarca);
             Categoria categoria = categoriaNegocio.listar().Find(x => x.Id == articulo.IdCategoria);
 
