@@ -393,6 +393,9 @@ namespace negocio
                     vuelta++;
                 }
 
+                if (vuelta == 0)
+                    return "No se cargaron imágenes en el artículo " + id;
+
                 return "Cargadas " + vuelta.ToString() + " imágenes en el artículo " + id;
 
             }
