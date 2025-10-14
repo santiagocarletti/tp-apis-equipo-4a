@@ -145,6 +145,20 @@ namespace tp_apis_equipo_4a.Controllers
             if (negocio.existeCodigo(articulo.Codigo, id))
                 return Content(HttpStatusCode.BadRequest, "Código de Artículo ya existente para otro artículo.");
 
+            bool NoHayCambios =
+                articuloExistente.Codigo == articulo.Codigo &&
+                articuloExistente.Nombre == articulo.Nombre &&
+                articuloExistente.Descripcion == articulo.Descripcion &&
+                articuloExistente.marca.Id == articulo.IdMarca &&
+                articuloExistente.IdCategoria.Id == articulo.IdCategoria &&
+                articuloExistente.Precio == articulo.Precio;
+                //articuloExistente.Imagen == articulo.Imagen;
+
+            if (NoHayCambios)
+            {
+                return Content(HttpStatusCode.OK, "No se realizó ninguna modificacion.");
+            }
+
             Articulo nuevo = new Articulo();
             nuevo.Codigo = articulo.Codigo;
             nuevo.Nombre = articulo.Nombre;
