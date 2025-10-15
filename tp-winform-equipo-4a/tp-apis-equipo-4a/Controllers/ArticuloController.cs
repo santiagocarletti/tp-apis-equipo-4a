@@ -150,26 +150,42 @@ namespace tp_apis_equipo_4a.Controllers
             if (negocio.existeCodigo(articulo.Codigo, id))
                 return Content(HttpStatusCode.BadRequest, "Código de Artículo ya existente para otro artículo.");
 
-            bool mismasImagenes = false;
-
-            if (articuloExistente.Imagen != null && articulo.Imagen != null)
+            List<string> imagenesExistentes = new List<string>();
+            if (articuloExistente.Imagen != null)
             {
-                if (articuloExistente.Imagen.Count == articulo.Imagen.Count)
+                foreach (var img in articuloExistente.Imagen)
                 {
-                    mismasImagenes = true;
-                    for (int i = 0; i < articulo.Imagen.Count; i++)
+                    if (img != null && img != "")
                     {
-                        if (articuloExistente.Imagen[i] != articulo.Imagen[i])
-                        {
-                            mismasImagenes = false;
-                            break;
-                        }
+                        imagenesExistentes.Add(img);
                     }
                 }
             }
-            else if (articuloExistente.Imagen == null && articulo.Imagen == null)
+
+            List<string> imagenesNuevas = new List<string>();
+            if (articulo.Imagen != null)
+            {
+                foreach (var img in articulo.Imagen)
+                {
+                    if (img != null && img != "")
+                    {
+                        imagenesNuevas.Add(img);
+                    }
+                }
+            }
+
+            bool mismasImagenes = false;
+            if (imagenesExistentes.Count == imagenesNuevas.Count)
             {
                 mismasImagenes = true;
+                for (int i = 0; i < imagenesNuevas.Count; i++)
+                {
+                    if (imagenesExistentes[i] != imagenesNuevas[i])
+                    {
+                        mismasImagenes = false;
+                        break;
+                    }
+                }
             }
 
             bool NoHayCambios =
